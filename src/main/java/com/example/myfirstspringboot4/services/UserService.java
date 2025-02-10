@@ -1,54 +1,44 @@
 package com.example.myfirstspringboot4.services;
 
+import com.example.myfirstspringboot4.daos.UserDao;
 import com.example.myfirstspringboot4.models.User;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+
 @Service
-public class UserService {
-    @PersistenceContext
-    private EntityManager entityManager;
+public class UserService implements UserInterface {
+    private final UserDao userDAO;
 
-    @Transactional(readOnly = true)
+    @Autowired
+    public UserService(UserDao userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    @Override
     public List<User> index() {
-        try {
-            return entityManager.createQuery("FROM User ", User.class).getResultList();
-        } catch (Exception e) {
-            System.err.println("Ошибка при выполнении запроса: " + e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
+        return userDAO.index();
     }
 
-    @Transactional(readOnly = true)
+    @Override
     public User show(int id) {
-        return entityManager.find(User.class, id);
+        return userDAO.show(id);
     }
 
-    @Transactional
+    @Override
     public void save(User user) {
-        entityManager.merge(user);
+        userDAO.save(user);
     }
 
-    @Transactional
+    @Override
     public void update(int id, User user) {
-        User p = entityManager.find(User.class, id);
-        if (p != null) {
-            p.setName(user.getName());
-            p.setAge(user.getAge());
-            entityManager.merge(p);
-        }
+        userDAO.update(id, user);
     }
 
-    @Transactional
+    @Override
     public void delete(int id) {
-        User p = entityManager.find(User.class, id);
-        if (p != null) {
-            entityManager.remove(p);
-        }
+        userDAO.delete(id);
     }
 }

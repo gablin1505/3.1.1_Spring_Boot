@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/users")
-public class UserController implements com.example.myfirstspringboot4.controllers.Controller {
+public class UserController {
     private final UserService userService;
 
     @Autowired
@@ -28,7 +28,7 @@ public class UserController implements com.example.myfirstspringboot4.controller
 
 
     @GetMapping("/show")
-    @Override
+
     public String show(@RequestParam("id") int id, Model model) {
         for (User user : userService.index()) {
             if (user.getId() == id) {
@@ -40,7 +40,7 @@ public class UserController implements com.example.myfirstspringboot4.controller
 
 
     @GetMapping("/new")
-    @Override
+
     public String newPerson(Model model) {
         model.addAttribute("user", new User());
         return "new";
@@ -49,7 +49,7 @@ public class UserController implements com.example.myfirstspringboot4.controller
 
 
     @PostMapping("/new")
-    @Override
+
     public String save(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors())
             return "new";
@@ -58,14 +58,14 @@ public class UserController implements com.example.myfirstspringboot4.controller
     }
 
     @GetMapping("/edit")
-    @Override
+
     public String edit(Model model, @RequestParam("id") int id) {
         model.addAttribute("user", userService.show(id));
         return "edit";
     }
 
     @PostMapping("/update")
-    @Override
+
     public String update(@ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult,
                          @RequestParam("id") int id) {
@@ -78,7 +78,7 @@ public class UserController implements com.example.myfirstspringboot4.controller
 
 
     @PostMapping("/delete")
-    @Override
+
     public String delete(@RequestParam("id") int id) {
         userService.delete(id);
         return "redirect:/users";

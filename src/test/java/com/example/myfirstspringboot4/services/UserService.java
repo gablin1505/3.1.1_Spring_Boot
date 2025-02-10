@@ -1,5 +1,6 @@
 package com.example.myfirstspringboot4.services;
 
+import com.example.myfirstspringboot4.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import models.User;
