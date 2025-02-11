@@ -28,7 +28,6 @@ public class UserController {
 
 
     @GetMapping("/show")
-
     public String show(@RequestParam("id") int id, Model model) {
         for (User user : userService.index()) {
             if (user.getId() == id) {
@@ -40,7 +39,6 @@ public class UserController {
 
 
     @GetMapping("/new")
-
     public String newPerson(Model model) {
         model.addAttribute("user", new User());
         return "new";
@@ -49,7 +47,6 @@ public class UserController {
 
 
     @PostMapping("/new")
-
     public String save(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors())
             return "new";
@@ -58,14 +55,12 @@ public class UserController {
     }
 
     @GetMapping("/edit")
-
     public String edit(Model model, @RequestParam("id") int id) {
         model.addAttribute("user", userService.show(id));
         return "edit";
     }
 
     @PostMapping("/update")
-
     public String update(@ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult,
                          @RequestParam("id") int id) {
@@ -78,7 +73,6 @@ public class UserController {
 
 
     @PostMapping("/delete")
-
     public String delete(@RequestParam("id") int id) {
         userService.delete(id);
         return "redirect:/users";
